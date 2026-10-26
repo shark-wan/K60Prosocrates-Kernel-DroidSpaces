@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-26",
+  "write": {
+    "written_at": "2026-10-26T22:05:53.859074+08:00",
+    "device": "socrates",
+    "slot": "_b",
+    "partition": "boot_b",
+    "sha256": "15d28dbba19a469790f24301652bbeff3430c4f196f92be534badc88f4e7d0c1",
+    "readback_verified": true
+  },
+  "image": {
+    "device": "socrates",
+    "slot": "_b",
+    "partition": "boot_b",
+    "image_bytes": 201326592,
+    "boot_header_version": 4,
+    "kernel_bytes": 49138176,
+    "kernel_sha256": "88205fe3a4e7298f6b3bc90f17763a047fad2b543f42566569b39c9e5cd42e50",
+    "original_boot_sha256": "ac35b609109427504d1df55a52d1d025c2cd7c072ac4447d48c6937c3520b07b",
+    "new_boot_sha256": "15d28dbba19a469790f24301652bbeff3430c4f196f92be534badc88f4e7d0c1",
+    "header_preserved": true,
+    "kernel_matches_ci_image": true,
+    "ramdisk_bytes": 0
+  },
+  "boot": {
+    "running_config_matches_ci": true,
+    "config_sha256": "194029f29d2b80164dac212bc15ab70675db54e29aa7e884796ac38a34cff55c",
+    "module_count_before": 390,
+    "module_count_after": 390,
+    "missing_modules": [],
+    "added_modules": [],
+    "root": "0",
+    "selinux": "Enforcing",
+    "boot_completed": "1",
+    "slot": "_b"
+  },
+  "droidspaces_required_pass": true,
+  "droidspaces_recommended_pass": true,
+  "optional_limits_disabled": [
+    "CPU limit",
+    "Process limit"
+  ],
+  "runtime_containers_tested": false,
+  "hardware_probe_scope": "GPU/audio/camera service enumeration and module loading; no photo capture or audible playback test"
+}

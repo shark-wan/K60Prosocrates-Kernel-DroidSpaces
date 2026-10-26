@@ -36,8 +36,8 @@
 
 Full LTO、CFI、SHADOW_CALL_STACK、KASAN_HW_TAGS、BTF、MODVERSIONS 等配置保持当前实机设置。CPU quota 与 PID 数限制保持关闭。AnyKernel3 只替换当前槽 boot 内核，保留 init_boot、vendor_boot、dtbo 和现有模块。
 
-## 尚待完成的运行验证
+## 后续运行验证
 
-本任务没有刷写或重启手机。下一阶段为实际启动、root/硬件功能、Droidspaces Requirements 及 ext4 sparse image 容器启动/联网验证。
+构建完成时尚未刷写。随后经用户授权，已成功刷入、重启并完成 root、模块、硬件服务枚举与 Droidspaces Requirements 检查，见 [刷机与启动验证](flash-result-2026-10-26.md)。发行版容器启动/联网尚待下一阶段。
 
 当前槽 `_b` 的原始 boot、init_boot、vendor_boot、dtbo 已备份在本机 `backups/5.15.211-g093e3da978e7_b/`，不上传 Git。

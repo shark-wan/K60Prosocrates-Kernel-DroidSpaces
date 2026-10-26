@@ -4,7 +4,7 @@
 
 选用与实机对应的 LineageOS 内核提交，保留实机配置、厂商模块和 SukiSU LKM root 方式，加入 Droidspaces 官方 SYSVIPC kABI 补丁与 GKI 配置。详细依据见 [调研报告](docs/research-2026-10-26.md)。
 
-**首个成功构建已完成**，运行 `40314557379`：401 个厂商模块的 3971 个可比较导入符号 CRC 匹配，0 个不匹配。Image 和 AnyKernel3 ZIP 已下载并核对 SHA256，详见 [成功构建记录](docs/build-result-2026-10-26.md)。尚未刷写或重启手机。
+**已成功构建并刷入实机。** 运行 `40314557379` 的产物已写入 boot_b，手机正常启动，390 个模块与刷前一致，root 正常，Droidspaces 必需项和推荐项全部通过。详见 [刷机与启动验证](docs/flash-result-2026-10-26.md)。构建阶段 401 个厂商模块的 3971 个可比较导入符号 CRC 匹配，0 个不匹配，见 [成功构建记录](docs/build-result-2026-10-26.md)。
 
 ## 构建
 
