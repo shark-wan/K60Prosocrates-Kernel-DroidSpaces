@@ -1,0 +1,29 @@
+{
+  "collected_date": "2026-10-26",
+  "vendor_files": 401,
+  "loaded_modules": 390,
+  "loaded_vendor_modules_covered": 389,
+  "loaded_modules_outside_vendor_files": [
+    "kernelsu"
+  ],
+  "vendor_module_scm_versions": {
+    "g59f333570683": 79,
+    "g093e3da978e7": 322
+  },
+  "scm_examples": {
+    "g59f333570683": [
+      "./adsp_loader_dlkm.ko",
+      "./audio_pkt_dlkm.ko",
+      "./audio_prm_dlkm.ko",
+      "./audpkt_ion_dlkm.ko",
+      "./aw882xx_dlkm.ko"
+    ],
+    "g093e3da978e7": [
+      "./adsp_sleepmon.ko",
+      "./altmode-glink.ko",
+      "./arm_smmu.ko",
+      "./at803x.ko",
+      "./bam_dma.ko"
+    ]
+  }
+}

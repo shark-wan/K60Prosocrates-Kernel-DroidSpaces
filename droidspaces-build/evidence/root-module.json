@@ -1,0 +1,9 @@
+{
+  "location": "init_boot_b.img:kernelsu.ko",
+  "collected_date": "2026-10-26",
+  "size": 621280,
+  "vermagic": "5.15.202-android13-5.15.202_r00-dirty SMP preempt mod_unload modversions aarch64",
+  "version_crc_records": 0,
+  "loaded_runtime_module": "kernelsu",
+  "notes": "The current SukiSU LKM has no import CRC records; its runtime compatibility is outside the vendor CRC comparison."
+}

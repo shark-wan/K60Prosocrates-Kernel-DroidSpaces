@@ -1,0 +1,59 @@
+
+[1mDroidspaces v7.0.0 - Checking system requirements...[0m
+
+[1m[MUST HAVE][0m
+These features are required for Droidspaces to work:
+
+  [[1;32m✓[0m] Root privileges
+  [[1;32m✓[0m] Linux version
+  [[1;31m✗[0m] PID namespace
+      [2mProcess ID namespace isolation[0m
+  [[1;32m✓[0m] Mount namespace
+  [[1;32m✓[0m] UTS namespace
+  [[1;31m✗[0m] IPC namespace
+      [2mInter-process communication isolation[0m
+  [[1;32m✓[0m] pivot_root syscall
+  [[1;32m✓[0m] /proc filesystem
+  [[1;32m✓[0m] /sys filesystem
+  [[1;32m✓[0m] Seccomp support
+
+[1m[RECOMMENDED][0m
+These features improve functionality but are not strictly required:
+
+  [[1;32m✓[0m] epoll support
+  [[1;32m✓[0m] signalfd support
+  [[1;32m✓[0m] PTY support
+  [[1;32m✓[0m] devpts support
+  [[1;32m✓[0m] Loop device
+  [[1;32m✓[0m] ext4 filesystem
+  [[1;32m✓[0m] Cgroup v2 support
+  [[1;32m✓[0m] Cgroup namespace
+  [[1;33m✗[0m] devtmpfs support
+      [2mRequired for hardware access mode; tmpfs fallback used otherwise[0m
+
+[1m[OPTIONAL][0m
+These features are optional and only used for specific functionality:
+
+  [[1;32m✓[0m] FUSE support
+  [[1;32m✓[0m] TUN/TAP support
+  [[1;32m✓[0m] OverlayFS support
+  [[1;32m✓[0m] Network namespace
+  [[1;32m✓[0m] Bridge device support
+  [[1;32m✓[0m] Veth pair support
+  [[1;33m✗[0m] Macvlan support
+      [2mCONFIG_MACVLAN; required for --net=macvlan[0m
+  [[1;33m✗[0m] IPv6 NAT support
+      [2mCONFIG_IP6_NF_NAT and CONFIG_IP6_NF_TARGET_MASQUERADE; --net=nat containers are IPv4 only if absent[0m
+  [[1;32m✓[0m] Memory limit support
+  [[1;33m✗[0m] CPU limit support
+      [2mCONFIG_CFS_BANDWIDTH, and no cgroup_disable=cpu on the kernel command line; --cpus is skipped if absent[0m
+  [[1;32m✓[0m] CPU usage accounting
+  [[1;33m✗[0m] Process limit support
+      [2mCONFIG_CGROUP_PIDS, and no cgroup_disable=pids on the kernel command line; --pids-limit is skipped if absent[0m
+  [[1;33m✗[0m] Sandboxing (user namespaces)
+      [2mCONFIG_USER_NS; enable per container with --allow-sandboxing. Needed by unprivileged Docker and Podman, by sandboxed apps (Flatpak, Bubblewrap, browsers) and by desktop environments[0m
+
+[1mSummary:[0m
+
+  [[1;31m✗[0m] 2 required feature(s) missing - Droidspaces will not work
+
