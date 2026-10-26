@@ -1,0 +1,44 @@
+{
+  "repository": "shark-wan/K60Prosocrates-Kernel-DroidSpaces",
+  "visibility": "public",
+  "release_tag": "v1.0.0",
+  "release_url": "https://github.com/shark-wan/K60Prosocrates-Kernel-DroidSpaces/releases/tag/v1.0.0",
+  "published_at": "2026-10-26T15:40:52Z",
+  "release_code_commit": "9cfbc90044cc9be98bc2db1edd9aca3f9337f902",
+  "kernel_source_commit": "2ca9356953d394c42e9de9b93b321d3f502a7099",
+  "source_verification": {
+    "source_tree": "7eb391714fd6fdf717b55fd3e83a2ef27a52087c",
+    "archive_matches_snapshot": true,
+    "config_matches_validated_kernel": true,
+    "all_asset_checksums_verified": true
+  },
+  "anonymous_repository_and_release_access": true,
+  "anonymous_kernel_zip_head_status": 200,
+  "assets": [
+    {
+      "name": "Image",
+      "size": 49138176,
+      "digest": "sha256:88205fe3a4e7298f6b3bc90f17763a047fad2b543f42566569b39c9e5cd42e50"
+    },
+    {
+      "name": "SHA256SUMS",
+      "size": 405,
+      "digest": "sha256:80744bdc84b71cccbeabb51b5b053538c5d599f464a793370891bd2ab1ca6cdc"
+    },
+    {
+      "name": "socrates-5.15.211-droidspaces-build-info.zip",
+      "size": 388318,
+      "digest": "sha256:05f6d00ae8937d3db285db8faac92d13d856795d6764df39efcce4150d7338d9"
+    },
+    {
+      "name": "socrates-5.15.211-droidspaces-source.tar.gz",
+      "size": 204843396,
+      "digest": "sha256:99caedbaa86f0895fcbcf32604542b4fed6d37dab6fa3d4a5861fa7fba2e578f"
+    },
+    {
+      "name": "socrates-lineage23.2-5.15.211-droidspaces.zip",
+      "size": 25486375,
+      "digest": "sha256:f921d60a0bc6282eee0633637f5271cff208cc6f3e2f988d772791ca60b41bdb"
+    }
+  ]
+}
