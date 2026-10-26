@@ -22,10 +22,12 @@ rm .cache/kernel-source.tar.gz
 
 # Gitiles archives contain only the requested compiler directory. A sparse
 # checkout still retains Git objects and exhausted the first hosted runner.
-curl -fL --retry 3 "${LOCK[2]}" -o .cache/clang.tar.gz
-sha256sum .cache/clang.tar.gz > dist/compiler-archive.sha256
-tar -xzf .cache/clang.tar.gz -C "toolchain/${LOCK[4]}"
-rm .cache/clang.tar.gz
+if [[ ! -x "toolchain/${LOCK[4]}/bin/clang" ]]; then
+  curl -fL --retry 3 "${LOCK[2]}" -o .cache/clang.tar.gz
+  sha256sum .cache/clang.tar.gz > dist/compiler-archive.sha256
+  tar -xzf .cache/clang.tar.gz -C "toolchain/${LOCK[4]}"
+  rm .cache/clang.tar.gz
+fi
 python3 scripts/verify_git_tree.py "toolchain/${LOCK[4]}" "${LOCK[5]}"
 python3 - <<'PY'
 import json,urllib.request

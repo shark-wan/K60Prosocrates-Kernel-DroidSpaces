@@ -37,8 +37,20 @@ jobs:
           sudo apt-get clean
           df -h
           free -h
+      - name: Restore pinned compiler cache
+        id: compiler-cache
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: toolchain/clang-r563880c
+          key: aosp-clang-r563880c-571ed3e20b5708cea1177d5072853fc5b85b6877
       - name: Fetch pinned source, compiler and apply kABI patch
         run: bash scripts/prepare.sh
+      - name: Cache verified compiler for later builds
+        if: steps.compiler-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: toolchain/clang-r563880c
+          key: aosp-clang-r563880c-571ed3e20b5708cea1177d5072853fc5b85b6877
       - name: Allocate link memory after downloading sources
         run: |
           set -euo pipefail

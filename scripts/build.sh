@@ -25,6 +25,11 @@ done < config/droidspaces.config
 
 make -C kernel O="$ROOT/out" olddefconfig
 
+kernel/scripts/diffconfig config/device-baseline.config out/.config > dist/config.diff
+cp out/.config dist/kernel.config
+diff -u --label a/arch/arm64/configs/gki_defconfig --label b/arch/arm64/configs/gki_defconfig \
+  .cache/gki_defconfig.original kernel/arch/arm64/configs/gki_defconfig >> dist/source.patch || test "$?" -eq 1
+
 python3 - <<'PY'
 from pathlib import Path
 def read(path):
@@ -32,8 +37,8 @@ def read(path):
                 if line.startswith('CONFIG_') and '=' in line)
 actual=read('out/.config')
 wanted=read('config/droidspaces.config')
-for name,value in wanted.items():
-    assert actual.get(name)==value, (name,actual.get(name),value)
+missing=[(name,actual.get(name),value) for name,value in wanted.items() if actual.get(name)!=value]
+assert not missing, missing
 baseline=read('config/device-baseline.config')
 for name in ('CONFIG_MODVERSIONS','CONFIG_CFI_CLANG','CONFIG_LTO_CLANG_FULL',
              'CONFIG_KASAN_HW_TAGS','CONFIG_SHADOW_CALL_STACK','CONFIG_DEBUG_INFO_BTF',
@@ -42,11 +47,6 @@ for name in ('CONFIG_MODVERSIONS','CONFIG_CFI_CLANG','CONFIG_LTO_CLANG_FULL',
 for name in ('CONFIG_CFS_BANDWIDTH','CONFIG_CGROUP_PIDS'):
     assert actual.get(name)==baseline.get(name), name
 PY
-
-kernel/scripts/diffconfig config/device-baseline.config out/.config > dist/config.diff
-cp out/.config dist/kernel.config
-diff -u --label a/arch/arm64/configs/gki_defconfig --label b/arch/arm64/configs/gki_defconfig \
-  .cache/gki_defconfig.original kernel/arch/arm64/configs/gki_defconfig >> dist/source.patch || test "$?" -eq 1
 
 make -C kernel O="$ROOT/out" -j"$JOBS" Image modules 2>&1 | tee dist/build.log
 cp out/arch/arm64/boot/Image dist/Image
