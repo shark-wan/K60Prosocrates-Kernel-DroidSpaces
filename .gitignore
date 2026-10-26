@@ -1,0 +1,13 @@
+.cache/
+artifacts/
+backups/
+evidence/*.gz
+evidence/modules.txt
+evidence/device.config
+__pycache__/
+*.pyc
+kernel/
+out/
+toolchain/
+dist/
+

@@ -1,0 +1,55 @@
+name: Build socrates Droidspaces kernel
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-kernel.yml'
+      - 'config/**'
+      - 'patches/**'
+      - 'scripts/**'
+      - 'evidence/vendor-module-versions.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: socrates-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  kernel:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Prepare ephemeral Linux runner
+        run: |
+          set -euo pipefail
+          test "${GITHUB_ACTIONS}" = true
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
+          sudo apt-get update -qq
+          sudo apt-get install -y bc bison flex libssl-dev libelf-dev dwarves cpio \
+            build-essential zip unzip curl git python3 lz4 zstd kmod \
+            gcc-arm-linux-gnueabi binutils-aarch64-linux-gnu
+          sudo fallocate -l 24G /swapfile-socrates
+          sudo chmod 600 /swapfile-socrates
+          sudo mkswap /swapfile-socrates
+          sudo swapon /swapfile-socrates
+          df -h .
+          free -h
+      - name: Fetch pinned source, compiler and apply kABI patch
+        run: bash scripts/prepare.sh
+      - name: Build with device configuration and compare module CRCs
+        run: bash scripts/build.sh
+      - name: Package Image and AnyKernel3
+        run: bash scripts/package.sh
+      - name: Upload kernel, config and build evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: socrates-droidspaces-${{ github.run_number }}
+          path: dist/
+          if-no-files-found: warn
+          retention-days: 30

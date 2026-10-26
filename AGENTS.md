@@ -1,0 +1,1 @@
+本项目的目的是针对REDMI K60 PRO(socrates)制作适配DroidSpaces的内核。该手机已经获得 root 权限并通过ADBshell(root)连接，全程配合你。

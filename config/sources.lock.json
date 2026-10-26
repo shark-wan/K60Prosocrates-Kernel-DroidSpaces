@@ -1,0 +1,26 @@
+{
+  "device": "socrates",
+  "kernel": {
+    "url": "https://github.com/LineageOS/android_kernel_xiaomi_sm8550.git",
+    "branch": "lineage-23.2",
+    "commit": "093e3da978e7b954d041a261d40975957c7fe6f1",
+    "release": "5.15.211-g093e3da978e7"
+  },
+  "toolchain": {
+    "url": "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86",
+    "commit": "9916fb51ccb914d62d35ad9a7b9b21d2ef046928",
+    "directory": "clang-r563880c",
+    "tree": "571ed3e20b5708cea1177d5072853fc5b85b6877"
+  },
+  "droidspaces": {
+    "url": "https://github.com/ravindu644/Droidspaces-OSS",
+    "documentation_commit": "64d53d17e765dad3028171204220f4d1134c7e37",
+    "release_tag": "v7.0.0",
+    "release_commit": "37e8b45de5ddc57d35cb8adfd8327add75e25159",
+    "patch": "Documentation/resources/kernel-patches/GKI/below-kernel-6.12/001.GKI-below-6.12-fix_sysvipc_kabi_6_7_8.patch"
+  },
+  "anykernel3": {
+    "url": "https://github.com/osm0sis/AnyKernel3.git",
+    "commit": "c072981836cd3ee46ad52a5f2cba76ecb927cb1b"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "collected_date": "2026-10-26",
+  "device": "socrates",
+  "kernel_release": "5.15.211-g093e3da978e7",
+  "lineage_version": "23.2-20260919-NIGHTLY-socrates",
+  "android_version": "16",
+  "security_patch": "2026-09-01",
+  "selinux": "Enforcing",
+  "active_slot": "_b",
+  "boot_partition_size": 201326592,
+  "loaded_modules": 390,
+  "root_module": [
+    "kernelsu"
+  ]
+}
