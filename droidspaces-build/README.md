@@ -2,7 +2,7 @@
 
 REDMI K60 Pro（socrates）的 DroidSpaces 适配内核、补丁与 GitHub Actions 构建脚本。
 
-[下载 Release](https://github.com/shark-wan/K60Prosocrates-Kernel-DroidSpaces/releases/latest) · [构建流程](https://github.com/shark-wan/K60Prosocrates-Kernel-DroidSpaces/actions) · [实机验证](docs/flash-result-2026-10-26.md)
+[下载 Release](https://github.com/shark-wan/K60Prosocrates-Kernel-DroidSpaces/releases/latest) · [完整内核源码](https://github.com/shark-wan/K60Prosocrates-Kernel-DroidSpaces/tree/kernel-source) · [构建流程](https://github.com/shark-wan/K60Prosocrates-Kernel-DroidSpaces/actions) · [实机验证](docs/flash-result-2026-10-26.md)
 
 本项目针对 **LineageOS 23.2 / Android 16 / `5.15.211-g093e3da978e7`** 的实机制作 Droidspaces 内核。研究日期：2026-10-26。电脑只需 Windows、ADB、Git 和 GitHub CLI；Linux 编译发生在 GitHub Actions runner。
 
@@ -31,7 +31,13 @@ gh run download <成功运行的ID> --repo shark-wan/K60Prosocrates-Kernel-Droid
 
 ## 源码与发布
 
-main 分支公开构建脚本、固定来源、完整实机配置、改动补丁和验证记录。Release 同时提供 AnyKernel3 ZIP、原始 Image、完整修改后内核源码归档、构建记录与 SHA256SUMS。源码归档包含对应内核版本的完整文件、实际 `.config`、`.scmversion` 和构建脚本快照，便于独立获取与复现。
+main 分支公开构建脚本、固定来源、完整实机配置、改动补丁和验证记录；kernel-source 分支提供完整修改后内核源码。Release 同时提供 AnyKernel3 ZIP、原始 Image、完整源码归档、构建记录与 SHA256SUMS。源码归档与 kernel-source 分支的 Git tree 一致，包含对应版本的完整文件、实际 `.config`、`.scmversion` 和构建脚本快照，便于独立获取与复现。
+
+如需重新导出源码归档，可在下载固定来源与已完成构建产物后运行：
+
+```powershell
+python scripts/package_source.py --archive .cache/kernel-source.tar.gz --artifact-dir artifacts/run-40314557379/socrates-droidspaces-5 --output-dir artifacts/public-v1.0.0
+```
 
 首版 Release 的二进制直接来自成功构建 `40314557379`，与已刷入手机并验证的 Image 相同。旧构建链接指向最初的私有构建仓库，仅作为历史来源记录；公开下载与后续构建使用本仓库。
 
