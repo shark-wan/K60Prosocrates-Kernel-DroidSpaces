@@ -7,39 +7,47 @@ mkdir -p dist
 readarray -t LOCK < <(python3 - <<'PY'
 import json
 x=json.load(open('config/sources.lock.json'))
-for value in (x['kernel']['url'], x['kernel']['commit'],
-              x['toolchain']['url'], x['toolchain']['commit'],
+for value in (x['kernel']['archive_url'], x['kernel']['archive_sha256'],
+              x['toolchain']['archive_url'], x['toolchain']['archive_sha256'],
               x['toolchain']['directory'], x['toolchain']['tree']):
     print(value)
 PY
 )
 
-if [[ ! -e kernel/.git ]]; then
-  git init kernel
-  git -C kernel remote add origin "${LOCK[0]}"
-  git -C kernel fetch --depth=1 origin "${LOCK[1]}"
-  git -C kernel checkout --detach FETCH_HEAD
-fi
-test "$(git -C kernel rev-parse HEAD)" = "${LOCK[1]}"
+mkdir -p kernel toolchain/"${LOCK[4]}" .cache
+curl -fL --retry 3 "${LOCK[0]}" -o .cache/kernel-source.tar.gz
+printf '%s  %s\n' "${LOCK[1]}" .cache/kernel-source.tar.gz | sha256sum --check
+tar -xzf .cache/kernel-source.tar.gz --strip-components=1 -C kernel
+rm .cache/kernel-source.tar.gz
 
-if [[ ! -e toolchain/.git ]]; then
-  git init toolchain
-  git -C toolchain remote add origin "${LOCK[2]}"
-  git -C toolchain sparse-checkout init --cone
-  git -C toolchain sparse-checkout set "${LOCK[4]}"
-  git -C toolchain -c http.version=HTTP/1.1 fetch --filter=blob:none --depth=1 origin "${LOCK[3]}"
-  git -C toolchain checkout --detach FETCH_HEAD
-fi
-test "$(git -C toolchain rev-parse HEAD)" = "${LOCK[3]}"
-test "$(git -C toolchain rev-parse "HEAD:${LOCK[4]}")" = "${LOCK[5]}"
+# Gitiles archives contain only the requested compiler directory. A sparse
+# checkout still retains Git objects and exhausted the first hosted runner.
+curl -fL --retry 3 "${LOCK[2]}" -o .cache/clang.tar.gz
+printf '%s  %s\n' "${LOCK[3]}" .cache/clang.tar.gz | sha256sum --check
+tar -xzf .cache/clang.tar.gz -C "toolchain/${LOCK[4]}"
+rm .cache/clang.tar.gz
+python3 - <<'PY'
+import json,urllib.request
+x=json.load(open('config/sources.lock.json'))['toolchain']
+url=f"{x['url']}/+/{x['commit']}/{x['directory']}/?format=JSON"
+with urllib.request.urlopen(url,timeout=60) as response:
+    tree=json.loads(response.read()[4:])['id']
+assert tree==x['tree'], (tree,x['tree'])
+PY
 "toolchain/${LOCK[4]}/bin/clang" --version | tee dist/compiler.txt
 
+cp kernel/include/linux/sched.h .cache/sched.h.original
+cp kernel/arch/arm64/configs/gki_defconfig .cache/gki_defconfig.original
+
 # Slot 1 is already in use in this Lineage tree. Slots 6-8 are still reserved.
-git -C kernel apply --check "$ROOT/patches/0001-sysvipc-kabi-padding-6-7-8.patch"
-git -C kernel apply "$ROOT/patches/0001-sysvipc-kabi-padding-6-7-8.patch"
+patch --directory=kernel --strip=1 --batch --fuzz=0 --dry-run < patches/0001-sysvipc-kabi-padding-6-7-8.patch
+patch --directory=kernel --strip=1 --batch --fuzz=0 < patches/0001-sysvipc-kabi-padding-6-7-8.patch
 
 # Preserve the release expected by the installed vendor and SukiSU LKM modules.
 # The changed source and configuration are identified separately in build.json.
 printf '%s\n' '-g093e3da978e7' > kernel/.scmversion
-git -C kernel diff > dist/source.patch
+diff -u --label a/include/linux/sched.h --label b/include/linux/sched.h \
+  .cache/sched.h.original kernel/include/linux/sched.h > dist/source.patch || test "$?" -eq 1
 cp config/sources.lock.json dist/
+df -h .
+du -sh kernel toolchain

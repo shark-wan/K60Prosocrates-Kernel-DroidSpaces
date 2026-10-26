@@ -4,13 +4,17 @@
     "url": "https://github.com/LineageOS/android_kernel_xiaomi_sm8550.git",
     "branch": "lineage-23.2",
     "commit": "093e3da978e7b954d041a261d40975957c7fe6f1",
-    "release": "5.15.211-g093e3da978e7"
+    "release": "5.15.211-g093e3da978e7",
+    "archive_url": "https://codeload.github.com/LineageOS/android_kernel_xiaomi_sm8550/tar.gz/093e3da978e7b954d041a261d40975957c7fe6f1",
+    "archive_sha256": "62c4c1dbe72dec89b37ff9b903791ed3334f5977baa90681ab1d98f6d070215a"
   },
   "toolchain": {
     "url": "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86",
     "commit": "9916fb51ccb914d62d35ad9a7b9b21d2ef046928",
     "directory": "clang-r563880c",
-    "tree": "571ed3e20b5708cea1177d5072853fc5b85b6877"
+    "tree": "571ed3e20b5708cea1177d5072853fc5b85b6877",
+    "archive_url": "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/9916fb51ccb914d62d35ad9a7b9b21d2ef046928/clang-r563880c.tar.gz",
+    "archive_sha256": "eaa177c0c7b923170069b7a5f1a280fcfcfbb44ac9aa2f36d7dec9de4d61f3c9"
   },
   "droidspaces": {
     "url": "https://github.com/ravindu644/Droidspaces-OSS",

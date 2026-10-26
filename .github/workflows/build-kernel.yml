@@ -28,19 +28,34 @@ jobs:
         run: |
           set -euo pipefail
           test "${GITHUB_ACTIONS}" = true
-          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc \
+            /opt/hostedtoolcache/CodeQL /usr/local/.ghcup /usr/local/share/powershell /usr/share/swift
           sudo apt-get update -qq
           sudo apt-get install -y bc bison flex libssl-dev libelf-dev dwarves cpio \
-            build-essential zip unzip curl git python3 lz4 zstd kmod \
+            build-essential patch zip unzip curl git python3 lz4 zstd kmod \
             gcc-arm-linux-gnueabi binutils-aarch64-linux-gnu
-          sudo fallocate -l 24G /swapfile-socrates
+          sudo apt-get clean
+          df -h
+          free -h
+      - name: Fetch pinned source, compiler and apply kABI patch
+        run: bash scripts/prepare.sh
+      - name: Allocate link memory after downloading sources
+        run: |
+          set -euo pipefail
+          available=$(df -B1 --output=avail . | tail -1)
+          swap_gib=$(( available / 1073741824 - 18 ))
+          if (( swap_gib > 24 )); then swap_gib=24; fi
+          if (( swap_gib < 8 )); then
+            echo 'Insufficient disk for Full LTO output and swap'
+            df -h .
+            exit 1
+          fi
+          sudo fallocate -l "${swap_gib}G" /swapfile-socrates
           sudo chmod 600 /swapfile-socrates
           sudo mkswap /swapfile-socrates
           sudo swapon /swapfile-socrates
           df -h .
           free -h
-      - name: Fetch pinned source, compiler and apply kABI patch
-        run: bash scripts/prepare.sh
       - name: Build with device configuration and compare module CRCs
         run: bash scripts/build.sh
       - name: Package Image and AnyKernel3

@@ -45,7 +45,8 @@ PY
 
 kernel/scripts/diffconfig config/device-baseline.config out/.config > dist/config.diff
 cp out/.config dist/kernel.config
-git -C kernel diff > dist/source.patch
+diff -u --label a/arch/arm64/configs/gki_defconfig --label b/arch/arm64/configs/gki_defconfig \
+  .cache/gki_defconfig.original kernel/arch/arm64/configs/gki_defconfig >> dist/source.patch || test "$?" -eq 1
 
 make -C kernel O="$ROOT/out" -j"$JOBS" Image modules 2>&1 | tee dist/build.log
 cp out/arch/arm64/boot/Image dist/Image
