@@ -15,6 +15,13 @@
 
 工作流固定内核、工具链、补丁和 AnyKernel3 提交；实际使用 Clang **r563880c / 21.0.0**，保持实机 Full LTO、CFI、MTE/KASAN、MODVERSIONS 等配置。正常的 GitHub artifact 在失败时也会保存诊断文件；只有包含 Image、ZIP、build.json 且 workflow 成功的 artifact 才是完整产物。
 
+Windows 也可直接通过 gh 下载成功构建的附件：
+
+```powershell
+gh run list --repo shark-wan/Kernel-socrates-DroidSpaces
+gh run download <成功运行的ID> --repo shark-wan/Kernel-socrates-DroidSpaces --dir artifacts
+```
+
 ## 更新实机采集
 
 ```powershell
