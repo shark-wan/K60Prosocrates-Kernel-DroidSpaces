@@ -93,8 +93,11 @@ def main() -> None:
             raise SystemExit(f"Snapshot directory already exists: {args.git_snapshot}")
         subprocess.run(["git", "init", "--bare", "--initial-branch=kernel-source",
                         str(args.git_snapshot)], check=True)
+        # Linux source includes names such as aux.c. A bare Git import never
+        # checks out these Windows-reserved names onto the local filesystem.
         snapshot = subprocess.Popen(
-            ["git", "-C", str(args.git_snapshot), "fast-import", "--quiet"],
+            ["git", "-c", "core.protectNTFS=false", "-C", str(args.git_snapshot),
+             "fast-import", "--quiet"],
             stdin=subprocess.PIPE)
         stamp = int(time.time())
         message = ("Import complete validated socrates DroidSpaces kernel source\n\n"
