@@ -25,18 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Prepare ephemeral Linux runner
-        run: |
-          set -euo pipefail
-          test "${GITHUB_ACTIONS}" = true
-          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc \
-            /opt/hostedtoolcache/CodeQL /usr/local/.ghcup /usr/local/share/powershell /usr/share/swift
-          sudo apt-get update -qq
-          sudo apt-get install -y bc bison flex libssl-dev libelf-dev dwarves cpio \
-            build-essential patch zip unzip curl git python3 lz4 zstd kmod \
-            gcc-arm-linux-gnueabi binutils-aarch64-linux-gnu
-          sudo apt-get clean
-          df -h
-          free -h
+        run: bash scripts/prepare-runner.sh
       - name: Restore pinned compiler cache
         id: compiler-cache
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
