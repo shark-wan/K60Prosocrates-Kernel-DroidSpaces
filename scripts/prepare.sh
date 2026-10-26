@@ -8,7 +8,7 @@ readarray -t LOCK < <(python3 - <<'PY'
 import json
 x=json.load(open('config/sources.lock.json'))
 for value in (x['kernel']['archive_url'], x['kernel']['archive_sha256'],
-              x['toolchain']['archive_url'], x['toolchain']['archive_sha256'],
+              x['toolchain']['archive_url'], x['toolchain']['commit'],
               x['toolchain']['directory'], x['toolchain']['tree']):
     print(value)
 PY
@@ -23,9 +23,10 @@ rm .cache/kernel-source.tar.gz
 # Gitiles archives contain only the requested compiler directory. A sparse
 # checkout still retains Git objects and exhausted the first hosted runner.
 curl -fL --retry 3 "${LOCK[2]}" -o .cache/clang.tar.gz
-printf '%s  %s\n' "${LOCK[3]}" .cache/clang.tar.gz | sha256sum --check
+sha256sum .cache/clang.tar.gz > dist/compiler-archive.sha256
 tar -xzf .cache/clang.tar.gz -C "toolchain/${LOCK[4]}"
 rm .cache/clang.tar.gz
+python3 scripts/verify_git_tree.py "toolchain/${LOCK[4]}" "${LOCK[5]}"
 python3 - <<'PY'
 import json,urllib.request
 x=json.load(open('config/sources.lock.json'))['toolchain']
